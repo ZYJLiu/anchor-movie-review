@@ -107,9 +107,9 @@ describe("movie-review", () => {
 
     console.log(tx5)
 
-    const movieReviewAccount2 = await program.account.movieAccountState.fetch(
-      movieReviewPda
-    )
-    console.log(movieReviewAccount2)
+    // const movieReviewAccount2 = await program.account.movieAccountState.fetch(
+    //   movieReviewPda
+    // )
+    // console.log(movieReviewAccount2)
   })
 })
