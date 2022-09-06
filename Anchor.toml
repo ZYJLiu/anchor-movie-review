@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.localnet]
-movie_review = "Hk2a7qk18P2uso9nkymrPTg2uakm3ThiVwVgoYhXYie4"
+[programs.devnet]
+movie_review = "9GwWwEMD9L3MSL4THQYPQ1YB2d3Y32Mo1Es6iPK3AgaK"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/home/johnliu/.config/solana/id.json"
 
 [scripts]
