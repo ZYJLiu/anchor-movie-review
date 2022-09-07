@@ -4,7 +4,7 @@ use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use mpl_token_metadata::instruction::create_metadata_accounts_v2;
 
-declare_id!("CXDRatYfZEoHiwfhrs8cBERJaGd8uxYeYseSxSAFWFjg");
+declare_id!("6cznhisarwDqfSBoUqvomDLHCVoigUSjPFvW32hzHFuy");
 
 #[program]
 pub mod movie_review {
@@ -20,6 +20,11 @@ pub mod movie_review {
         msg!("Title: {}", title);
         msg!("Description: {}", description);
         msg!("Rating: {}", rating);
+
+        if rating > 5 || rating < 1 {
+            msg!("Rating cannot be higher than 5");
+            return err!(ErrorCode::InvalidRating);
+        }
 
         let movie_review = &mut ctx.accounts.movie_review;
         movie_review.reviewer = ctx.accounts.initializer.key();
@@ -46,7 +51,7 @@ pub mod movie_review {
             &signer,
         );
 
-        token::mint_to(cpi_ctx, 5000000)?;
+        token::mint_to(cpi_ctx, 10000000)?;
         msg!("Minted Tokens");
         Ok(())
     }
@@ -95,6 +100,11 @@ pub mod movie_review {
         msg!("Title: {}", title);
         msg!("Description: {}", description);
         msg!("Rating: {}", rating);
+
+        if rating > 5 || rating < 1 {
+            msg!("Rating cannot be higher than 5");
+            return err!(ErrorCode::InvalidRating);
+        }
 
         let movie_review = &mut ctx.accounts.movie_review;
         movie_review.rating = rating;
@@ -309,4 +319,10 @@ pub struct MovieComment {
     pub commenter: Pubkey, // 32
     pub comment: String,   // 4 + len()
     pub count: u64,        // 8
+}
+
+#[error_code]
+pub enum ErrorCode {
+    #[msg("Rating greater than 5 or less than 1")]
+    InvalidRating,
 }
