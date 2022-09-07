@@ -1,9 +1,10 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::program::invoke_signed;
+use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use mpl_token_metadata::instruction::create_metadata_accounts_v2;
 
-declare_id!("9GwWwEMD9L3MSL4THQYPQ1YB2d3Y32Mo1Es6iPK3AgaK");
+declare_id!("CXDRatYfZEoHiwfhrs8cBERJaGd8uxYeYseSxSAFWFjg");
 
 #[program]
 pub mod movie_review {
@@ -180,14 +181,18 @@ pub struct AddMovieReview<'info> {
         bump
     )]
     pub reward_mint: Account<'info, Mint>,
-    #[account(mut,
-        constraint = token_account.mint == reward_mint.key(),
-        constraint = token_account.owner == initializer.key()
+    #[account(
+        init_if_needed,
+        payer = initializer,
+        associated_token::mint = reward_mint,
+        associated_token::authority = initializer
     )]
     pub token_account: Account<'info, TokenAccount>,
-    pub token_program: Program<'info, Token>,
     #[account(mut)]
     pub initializer: Signer<'info>,
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub rent: Sysvar<'info, Rent>,
     pub system_program: Program<'info, System>,
 }
 
@@ -218,14 +223,18 @@ pub struct AddComment<'info> {
         bump
     )]
     pub reward_mint: Account<'info, Mint>,
-    #[account(mut,
-        constraint = token_account.mint == reward_mint.key(),
-        constraint = token_account.owner == initializer.key()
+    #[account(
+        init_if_needed,
+        payer = initializer,
+        associated_token::mint = reward_mint,
+        associated_token::authority = initializer
     )]
     pub token_account: Account<'info, TokenAccount>,
-    pub token_program: Program<'info, Token>,
     #[account(mut)]
     pub initializer: Signer<'info>,
+    pub token_program: Program<'info, Token>,
+    pub associated_token_program: Program<'info, AssociatedToken>,
+    pub rent: Sysvar<'info, Rent>,
     pub system_program: Program<'info, System>,
 }
 

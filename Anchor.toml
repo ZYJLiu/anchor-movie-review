@@ -1,7 +1,7 @@
 [features]
-seeds = false
+seeds = true
 [programs.devnet]
-movie_review = "9GwWwEMD9L3MSL4THQYPQ1YB2d3Y32Mo1Es6iPK3AgaK"
+movie_review = "CXDRatYfZEoHiwfhrs8cBERJaGd8uxYeYseSxSAFWFjg"
 
 [registry]
 url = "https://anchor.projectserum.com"
