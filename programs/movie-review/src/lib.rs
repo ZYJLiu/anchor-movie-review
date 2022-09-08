@@ -4,7 +4,7 @@ use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use mpl_token_metadata::instruction::create_metadata_accounts_v2;
 
-declare_id!("6cznhisarwDqfSBoUqvomDLHCVoigUSjPFvW32hzHFuy");
+declare_id!("G9w6Uyj2uiX4jQ2Dbnavgu3zu3T3JEHyDiPc1UjX578E");
 
 #[program]
 pub mod movie_review {

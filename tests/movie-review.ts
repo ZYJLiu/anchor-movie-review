@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor"
 import { Program } from "@project-serum/anchor"
 import { PublicKey } from "@solana/web3.js"
-import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token"
+import { getAssociatedTokenAddress } from "@solana/spl-token"
 import { MovieReview } from "../target/types/movie_review"
 import { findMetadataPda } from "@metaplex-foundation/js"
 import { expect } from "chai"
@@ -16,7 +16,7 @@ describe("movie-review", () => {
 
   const title = `Title #${Math.random()}`
   const description = "Description"
-  const descriptionUpdate = "Update"
+  const descriptionUpdate = "Test"
   const rating = 1
   const ratingUpdate = 5
   const comment = "comment"
@@ -57,98 +57,98 @@ describe("movie-review", () => {
         tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
       })
 
-    // const keys = await transaction.pubkeys()
-    // const transactionSignature = await transaction.rpc()
-    // //
-    // console.log(
-    //   `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
-    // )
+    const keys = await transaction.pubkeys()
+    const transactionSignature = await transaction.rpc()
+    //
+    console.log(
+      `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
+    )
 
     console.log(`https://explorer.solana.com/address/${mintPDA}?cluster=devnet`)
   })
 
-  it("Create Review", async () => {
-    const tx = await program.methods
-      .addMovieReview(title, description, rating)
-      .accounts({
-        tokenAccount: tokenAddress,
-        initializer: userWallet.publicKey,
-      })
+  // it("Create Review", async () => {
+  //   const tx = await program.methods
+  //     .addMovieReview(title, description, rating)
+  //     .accounts({
+  //       tokenAccount: tokenAddress,
+  //       initializer: userWallet.publicKey,
+  //     })
 
-    const keys = await tx.pubkeys()
+  //   const keys = await tx.pubkeys()
 
-    movieReview = keys.movieReview
-    movieCommentCounter = keys.movieCommentCounter
+  //   movieReview = keys.movieReview
+  //   movieCommentCounter = keys.movieCommentCounter
 
-    const transactionSignature = await tx.rpc()
-    console.log(
-      `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
-    )
+  //   const transactionSignature = await tx.rpc()
+  //   console.log(
+  //     `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
+  //   )
 
-    const movieReviewAccount = await program.account.movieAccountState.fetch(
-      keys.movieReview
-    )
+  //   const movieReviewAccount = await program.account.movieAccountState.fetch(
+  //     keys.movieReview
+  //   )
 
-    expect(movieReviewAccount.title).is.equal(title)
-    expect(movieReviewAccount.description).is.equal(description)
-    expect(movieReviewAccount.rating).is.equal(rating)
-  })
+  //   expect(movieReviewAccount.title).is.equal(title)
+  //   expect(movieReviewAccount.description).is.equal(description)
+  //   expect(movieReviewAccount.rating).is.equal(rating)
+  // })
 
-  it("Update Review", async () => {
-    const tx = await program.methods
-      .updateMovieReview(title, descriptionUpdate, ratingUpdate)
-      .accounts({
-        initializer: userWallet.publicKey,
-      })
+  // it("Update Review", async () => {
+  //   const tx = await program.methods
+  //     .updateMovieReview(title, descriptionUpdate, ratingUpdate)
+  //     .accounts({
+  //       initializer: userWallet.publicKey,
+  //     })
 
-    const keys = await tx.pubkeys()
+  //   const keys = await tx.pubkeys()
 
-    const transactionSignature = await tx.rpc()
-    console.log(
-      `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
-    )
+  //   const transactionSignature = await tx.rpc()
+  //   console.log(
+  //     `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
+  //   )
 
-    const movieReviewAccount = await program.account.movieAccountState.fetch(
-      keys.movieReview
-    )
+  //   const movieReviewAccount = await program.account.movieAccountState.fetch(
+  //     keys.movieReview
+  //   )
 
-    expect(movieReviewAccount.title).is.equal(title)
-    expect(movieReviewAccount.description).is.equal(descriptionUpdate)
-    expect(movieReviewAccount.rating).is.equal(ratingUpdate)
-  })
+  //   expect(movieReviewAccount.title).is.equal(title)
+  //   expect(movieReviewAccount.description).is.equal(descriptionUpdate)
+  //   expect(movieReviewAccount.rating).is.equal(ratingUpdate)
+  // })
 
-  it("Add Comment", async () => {
-    const tx = await program.methods.addComment(comment).accounts({
-      movieReview: movieReview,
-      movieCommentCounter: movieCommentCounter,
-      tokenAccount: tokenAddress,
-      initializer: userWallet.publicKey,
-    })
+  // it("Add Comment", async () => {
+  //   const tx = await program.methods.addComment(comment).accounts({
+  //     movieReview: movieReview,
+  //     movieCommentCounter: movieCommentCounter,
+  //     tokenAccount: tokenAddress,
+  //     initializer: userWallet.publicKey,
+  //   })
 
-    const keys = await tx.pubkeys()
+  //   const keys = await tx.pubkeys()
 
-    const transactionSignature = await tx.rpc()
-    console.log(
-      `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
-    )
+  //   const transactionSignature = await tx.rpc()
+  //   console.log(
+  //     `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
+  //   )
 
-    const movieCommentAccount = await program.account.movieComment.fetch(
-      keys.movieComment
-    )
-    expect(movieCommentAccount.comment).is.equal(comment)
-  })
+  //   const movieCommentAccount = await program.account.movieComment.fetch(
+  //     keys.movieComment
+  //   )
+  //   expect(movieCommentAccount.comment).is.equal(comment)
+  // })
 
-  it("Close", async () => {
-    const tx = await program.methods.close().accounts({
-      movieReview,
-      reviewer: userWallet.publicKey,
-    })
+  // it("Close", async () => {
+  //   const tx = await program.methods.close().accounts({
+  //     movieReview,
+  //     reviewer: userWallet.publicKey,
+  //   })
 
-    const transactionSignature = await tx.rpc()
-    console.log(
-      `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
-    )
-  })
+  //   const transactionSignature = await tx.rpc()
+  //   console.log(
+  //     `https://explorer.solana.com/tx/${transactionSignature}?cluster=devnet`
+  //   )
+  // })
 })
 
 // const [movieReviewPda, bump] =
