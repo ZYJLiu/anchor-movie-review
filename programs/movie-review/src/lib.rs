@@ -217,10 +217,6 @@ pub struct AddComment<'info> {
         space = 8 + 32 + 32 + 4 + comment.len() + 8
     )]
     pub movie_comment: Account<'info, MovieComment>,
-    #[account(
-        // seeds = [movie_review.title.as_bytes(), initializer.key().as_ref()],
-        // bump,
-    )]
     pub movie_review: Account<'info, MovieAccountState>,
     #[account(
         mut,
