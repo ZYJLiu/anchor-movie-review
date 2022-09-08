@@ -4,7 +4,7 @@ use anchor_spl::associated_token::AssociatedToken;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use mpl_token_metadata::instruction::create_metadata_accounts_v2;
 
-declare_id!("G9w6Uyj2uiX4jQ2Dbnavgu3zu3T3JEHyDiPc1UjX578E");
+declare_id!("BouTUP7a3MZLtXqMAm1NrkJSKwAjmid8abqiNjUyBJSr");
 
 #[program]
 pub mod movie_review {
@@ -218,8 +218,8 @@ pub struct AddComment<'info> {
     )]
     pub movie_comment: Account<'info, MovieComment>,
     #[account(
-        seeds = [movie_review.title.as_bytes(), initializer.key().as_ref()],
-        bump,
+        // seeds = [movie_review.title.as_bytes(), initializer.key().as_ref()],
+        // bump,
     )]
     pub movie_review: Account<'info, MovieAccountState>,
     #[account(
